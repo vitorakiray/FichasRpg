@@ -29,14 +29,13 @@ function renderFocus(containerId, maxId, storageKey) {
 }
 
 function updateSheet() {
-    // 1. Proficiência por Nível
     const level = parseInt(document.getElementById('levelField').value) || 1;
     const profBonus = calculateProficiency(level);
     document.getElementById('profBonusField').value = `+${profBonus}`;
 
     const mods = {};
 
-    // 2. Modificadores de Atributos
+    // 1. Atualizar Atributos
     document.querySelectorAll('.stat-mini input').forEach(input => {
         const stat = input.dataset.stat;
         const val = parseInt(input.value) || 10;
@@ -46,19 +45,18 @@ function updateSheet() {
         if(el) el.textContent = mod >= 0 ? `+${mod}` : mod;
     });
 
-    // 3. CA e Iniciativa
+    // 2. CA e Iniciativa
     const dex = mods['Des'] || 0;
     document.getElementById('initField').value = dex >= 0 ? `+${dex}` : dex;
     document.getElementById('caField').value = 10 + dex;
 
-    // 4. Vida e Sanidade (Fórmula Simplificada: 17 + Modificador)
+    // 3. Vitalidade e Sanidade (Base 17 + Mod)
     const conMod = mods['Con'] || 0;
     const ocuMod = mods['Ocu'] || 0;
-    
     document.getElementById('hpMaxField').value = 17 + conMod;
     document.getElementById('sanMaxField').value = 17 + ocuMod;
 
-    // 5. Perícias e Resistências
+    // 4. Atualizar todas as perícias e resistências (.mod-val)
     document.querySelectorAll('.mod-val').forEach(span => {
         const stat = span.dataset.base;
         const profCheck = span.parentElement.querySelector('input[type="checkbox"]');
@@ -68,31 +66,59 @@ function updateSheet() {
         span.textContent = finalVal >= 0 ? `+${finalVal}` : finalVal;
     });
 
-    // 6. Focos
-    renderFocus('containerFocusCombate', 'maxFocusCombate', 'horror_focus_c');
-    renderFocus('containerFocusDiario', 'maxFocusDiario', 'horror_focus_d');
+    renderFocus('containerFocusCombate', 'maxFocusCombate', 'save_f_combate');
+    renderFocus('containerFocusDiario', 'maxFocusDiario', 'save_f_diario');
 }
 
-// Persistência de Dados
+// Persistência
 const inputs = document.querySelectorAll('input, textarea');
 
 function save() {
     inputs.forEach((el, i) => {
-        if (!el.readOnly) {
-            localStorage.setItem('horror_v9_save_' + i, el.type === 'checkbox' ? el.checked : el.value);
+        if (!el.readOnly && el.id !== 'importFile') {
+            localStorage.setItem('horror_final_v10_' + i, el.type === 'checkbox' ? el.checked : el.value);
         }
     });
 }
 
 function load() {
     inputs.forEach((el, i) => {
-        const saved = localStorage.getItem('horror_v9_save_' + i);
+        const saved = localStorage.getItem('horror_final_v10_' + i);
         if (saved !== null) {
             if (el.type === 'checkbox') el.checked = (saved === 'true');
             else el.value = saved;
         }
     });
     updateSheet();
+}
+
+// Funções de Arquivo
+function exportarFicha() {
+    const dados = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const chave = localStorage.key(i);
+        if (chave.startsWith('horror_final_v10_')) {
+            dados[chave] = localStorage.getItem(chave);
+        }
+    }
+    const blob = new Blob([JSON.stringify(dados)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ficha_investigador.json';
+    a.click();
+}
+
+function importarFicha(input) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const dados = JSON.parse(reader.result);
+        for (const chave in dados) {
+            localStorage.setItem(chave, dados[chave]);
+        }
+        location.reload();
+    };
+    reader.readAsText(input.files[0]);
 }
 
 inputs.forEach(el => el.addEventListener('input', () => { updateSheet(); save(); }));
