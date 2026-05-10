@@ -18,7 +18,7 @@ body {
 }
 
 .blog-container {
-    width: 1000px;
+    width: 1050px;
     background: var(--paper);
     border: 1px solid #222;
     padding: 20px;
@@ -49,28 +49,19 @@ body {
 .char-field { display: flex; flex-direction: column; align-items: center; }
 .char-field label { font-size: 0.6rem; color: #555; font-weight: bold; margin-top: 4px;}
 .char-field input { 
-    background: transparent; 
-    border: none; 
-    border-bottom: 1px solid #222; 
-    text-align: center; 
-    color: #fff; 
-    width: 160px;
-    font-size: 1rem;
+    background: transparent; border: none; border-bottom: 1px solid #222; 
+    text-align: center; color: #fff; width: 160px; font-size: 1rem;
 }
 
-/* REMOVER BOTÕES DE AUMENTAR/SUBTRAIR (Spinners) */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+/* Esconder setas de aumentar/diminuir */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
 }
-input[type=number] {
-    -moz-appearance: textfield;
-}
+input[type=number] { -moz-appearance: textfield; }
 
 .main-content {
     display: grid;
-    grid-template-columns: 230px 1fr 230px;
+    grid-template-columns: 260px 1fr 240px;
     gap: 15px;
 }
 
@@ -82,28 +73,29 @@ input[type=number] {
 }
 
 .stat-mini {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 6px 2px;
-    text-align: center;
+    background: #0a0a0a; border: 1px solid #222; padding: 6px 2px; text-align: center;
 }
 
 .stat-mini.highlight { border-color: var(--oculto); }
 .stat-mini label { font-size: 0.6rem; display: block; color: #444; }
 .stat-mod { font-size: 1.1rem; font-weight: bold; color: var(--accent); margin: 2px 0; }
 .stat-mini input { 
-    width: 100%; 
-    background: transparent; 
-    border: none; 
-    font-size: 0.85rem; 
-    text-align: center; 
-    color: #666; 
-    outline: none; 
+    width: 100%; background: transparent; border: none; 
+    font-size: 0.85rem; text-align: center; color: #666; outline: none; 
 }
 
 .box { background: #080808; border: 1px solid #1a1a1a; padding: 10px; margin-bottom: 10px; }
 .red-title { font-size: 0.75rem; color: var(--accent); margin: 0 0 8px 0; border-bottom: 1px solid #222; text-align: center; }
 h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; }
+
+/* Lista de Perícias com Scroll se necessário */
+.compact-box.pericias {
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.compact-box.pericias::-webkit-scrollbar { width: 3px; }
+.compact-box.pericias::-webkit-scrollbar-thumb { background: var(--accent); }
 
 .skill-row { font-size: 0.7rem; display: flex; align-items: center; margin-bottom: 4px; }
 .mod-val { width: 30px; font-weight: bold; margin-right: 6px; color: #fff; border-bottom: 1px solid #333; text-align: center; }
@@ -118,45 +110,14 @@ h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; }
 .hp-box { border-top: 3px solid var(--accent); }
 .san-box { border-top: 3px solid var(--oculto); }
 .status-grid input { 
-    background: transparent; 
-    border: none; 
-    color: #fff; 
-    font-size: 1.4rem; 
-    text-align: center; 
-    width: 100%; 
-    padding: 5px 0;
+    background: transparent; border: none; color: #fff; 
+    font-size: 1.4rem; text-align: center; width: 100%; padding: 5px 0;
 }
 .current-val { 
-    border-top: 1px solid #1a1a1a !important; 
-    font-size: 1rem !important; 
-    margin-top: 5px; 
-    color: #ccc !important; 
+    border-top: 1px solid #1a1a1a !important; font-size: 1rem !important; 
+    margin-top: 5px; color: #ccc !important; 
 }
 
 /* FOCO */
 .focus-line { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.focus-line label { font-size: 0.65rem; flex: 1; color: #666; }
-.f-num { 
-    width: 35px; 
-    background: #000; 
-    border: 1px solid #333; 
-    color: #fff; 
-    text-align: center; 
-    font-size: 0.8rem; 
-    padding: 2px;
-}
-.f-slots { display: flex; gap: 5px; }
-.focus-checkbox { appearance: none; width: 14px; height: 14px; border: 1px solid var(--accent); border-radius: 50%; cursor: pointer; background: #000; }
-.focus-checkbox:checked { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
-
-textarea { 
-    width: 100%; 
-    background: transparent; 
-    border: none; 
-    color: #888; 
-    font-family: 'Courier Prime', monospace; 
-    font-size: 0.85rem; 
-    resize: none; 
-    outline: none; 
-    line-height: 1.4; 
-}
+.focus
