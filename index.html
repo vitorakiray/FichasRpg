@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARQUIVO #001 - INVESTIGAÇÃO OCULTA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="blog-container">
+    <header class="blog-header">
+        <h1>PROJETO: BARRO, OURO E CERA</h1>
+        <div class="header-data">
+            <div class="char-field">
+                <input type="text" value="Agente">
+                <label>NOME DO INVESTIGADOR</label>
+            </div>
+            <div class="char-field compact">
+                <input type="number" id="levelField" value="1" min="1">
+                <label>NÍVEL</label>
+            </div>
+            <div class="char-field compact">
+                <input type="text" id="profBonusField" value="+2" readonly>
+                <label>COMPETÊNCIA</label>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <aside class="side-col">
+            <div class="attributes-row">
+                <div class="stat-mini">
+                    <label>FOR</label>
+                    <div class="stat-mod" id="mod-For">+0</div>
+                    <input type="number" value="10" data-stat="For">
+                </div>
+                <div class="stat-mini">
+                    <label>DES</label>
+                    <div class="stat-mod" id="mod-Des">+0</div>
+                    <input type="number" value="10" data-stat="Des">
+                </div>
+                <div class="stat-mini">
+                    <label>CON</label>
+                    <div class="stat-mod" id="mod-Con">+0</div>
+                    <input type="number" value="10" data-stat="Con">
+                </div>
+                <div class="stat-mini">
+                    <label>INT</label>
+                    <div class="stat-mod" id="mod-Int">+0</div>
+                    <input type="number" value="10" data-stat="Int">
+                </div>
+                <div class="stat-mini highlight">
+                    <label>OCU</label>
+                    <div class="stat-mod" id="mod-Ocu">+0</div>
+                    <input type="number" value="10" data-stat="Ocu">
+                </div>
+                <div class="stat-mini">
+                    <label>CAR</label>
+                    <div class="stat-mod" id="mod-Car">+0</div>
+                    <input type="number" value="10" data-stat="Car">
+                </div>
+            </div>
+
+            <div class="box compact-box">
+                <h3 class="red-title">RESISTÊNCIAS</h3>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="For">+0</span> Força</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Destreza</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Con">+0</span> Const.</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Intelig.</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Ocu">+0</span> Ocultismo</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Carisma</div>
+            </div>
+
+            <div class="box compact-box">
+                <h3 class="red-title">PERÍCIAS</h3>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Arcanismo</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Investigação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Percepção</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Ocu">+0</span> Rituais</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Medicina</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Sobrevivência</div>
+            </div>
+        </aside>
+
+        <section class="center-col">
+            <div class="combat-summary">
+                <div class="combat-item"><label>DEFESA (CA)</label><input type="text" id="caField" readonly value="10"></div>
+                <div class="combat-item"><label>REAÇÃO (INIT)</label><input type="text" id="initField" readonly value="+0"></div>
+            </div>
+
+            <div class="status-grid">
+                <div class="box hp-box">
+                    <label>VITALIDADE MÁX</label>
+                    <input type="number" id="hpMaxField" readonly value="17">
+                    <input type="text" placeholder="ATUAL" class="current-val">
+                </div>
+                <div class="box san-box">
+                    <label>SANIDADE MÁX</label>
+                    <input type="number" id="sanMaxField" readonly value="17">
+                    <input type="text" placeholder="ATUAL" class="current-val">
+                </div>
+            </div>
+
+            <div class="box focus-area">
+                <div class="focus-line">
+                    <label>ADRENALINA (COMBATE)</label>
+                    <input type="number" id="maxFocusCombate" value="3" class="f-num">
+                    <div id="containerFocusCombate" class="f-slots"></div>
+                </div>
+                <div class="focus-line">
+                    <label>RESERVA MENTAL (DIÁRIO)</label>
+                    <input type="number" id="maxFocusDiario" value="2" class="f-num">
+                    <div id="containerFocusDiario" class="f-slots"></div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>AÇÕES E RITUAIS</h3>
+                <textarea style="height: 180px;"></textarea>
+            </div>
+        </section>
+
+        <aside class="side-col">
+            <div class="box">
+                <h3>EQUIPAMENTO</h3>
+                <textarea style="height: 160px;"></textarea>
+            </div>
+            <div class="box">
+                <h3>NOTAS / TRAUMAS</h3>
+                <textarea style="height: 280px;"></textarea>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
