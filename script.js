@@ -1,11 +1,8 @@
-function calculateMod(score) {
-    return Math.floor((score - 10) / 2);
-}
+// Funções Matemáticas
+const calculateMod = (score) => Math.floor((score - 10) / 2);
+const calculateProficiency = (level) => Math.ceil(level / 4) + 1;
 
-function calculateProficiency(level) {
-    return Math.ceil(level / 4) + 1;
-}
-
+// Gerenciador de Bolinhas de Foco/Adrenalina
 function renderFocus(containerId, maxId, storageKey) {
     const container = document.getElementById(containerId);
     const input = document.getElementById(maxId);
@@ -28,6 +25,7 @@ function renderFocus(containerId, maxId, storageKey) {
     }
 }
 
+// Atualização Principal da Ficha
 function updateSheet() {
     const level = parseInt(document.getElementById('levelField').value) || 1;
     const profBonus = calculateProficiency(level);
@@ -35,7 +33,7 @@ function updateSheet() {
 
     const mods = {};
 
-    // 1. Atualizar Atributos
+    // 1. Atributos e Modificadores
     document.querySelectorAll('.stat-mini input').forEach(input => {
         const stat = input.dataset.stat;
         const val = parseInt(input.value) || 10;
@@ -46,44 +44,46 @@ function updateSheet() {
     });
 
     // 2. CA e Iniciativa
-    const dex = mods['Des'] || 0;
-    document.getElementById('initField').value = dex >= 0 ? `+${dex}` : dex;
-    document.getElementById('caField').value = 10 + dex;
+    const dexMod = mods['Des'] || 0;
+    document.getElementById('initField').value = dexMod >= 0 ? `+${dexMod}` : dexMod;
+    document.getElementById('caField').value = 10 + dexMod;
 
-    // 3. Vitalidade e Sanidade (Base 17 + Mod)
-    const conMod = mods['Con'] || 0;
-    const ocuMod = mods['Ocu'] || 0;
-    document.getElementById('hpMaxField').value = 17 + conMod;
-    document.getElementById('sanMaxField').value = 17 + ocuMod;
+    // 3. Vitalidade e Sanidade (17 + Modificador)
+    document.getElementById('hpMaxField').value = 17 + (mods['Con'] || 0);
+    document.getElementById('sanMaxField').value = 17 + (mods['Ocu'] || 0);
 
-    // 4. Atualizar todas as perícias e resistências (.mod-val)
+    // 4. Perícias e Resistências
     document.querySelectorAll('.mod-val').forEach(span => {
-        const stat = span.dataset.base;
+        const statBase = span.dataset.base;
         const profCheck = span.parentElement.querySelector('input[type="checkbox"]');
         const isProficient = profCheck ? profCheck.checked : false;
-        const baseMod = mods[stat] || 0;
+        const baseMod = mods[statBase] || 0;
         const finalVal = baseMod + (isProficient ? profBonus : 0);
         span.textContent = finalVal >= 0 ? `+${finalVal}` : finalVal;
     });
 
-    renderFocus('containerFocusCombate', 'maxFocusCombate', 'save_f_combate');
-    renderFocus('containerFocusDiario', 'maxFocusDiario', 'save_f_diario');
+    // 5. Atualizar Focos
+    renderFocus('containerFocusCombate', 'maxFocusCombate', 'save_focus_combat');
+    renderFocus('containerFocusDiario', 'maxFocusDiario', 'save_focus_daily');
 }
 
-// Persistência
-const inputs = document.querySelectorAll('input, textarea');
+// Sistema de Salvamento Local
+const SAVE_KEY_PREFIX = 'horror_v10_save_';
 
-function save() {
-    inputs.forEach((el, i) => {
+function saveAll() {
+    const allInputs = document.querySelectorAll('input, textarea');
+    allInputs.forEach((el, i) => {
         if (!el.readOnly && el.id !== 'importFile') {
-            localStorage.setItem('horror_final_v10_' + i, el.type === 'checkbox' ? el.checked : el.value);
+            const val = el.type === 'checkbox' ? el.checked : el.value;
+            localStorage.setItem(SAVE_KEY_PREFIX + i, val);
         }
     });
 }
 
-function load() {
-    inputs.forEach((el, i) => {
-        const saved = localStorage.getItem('horror_final_v10_' + i);
+function loadAll() {
+    const allInputs = document.querySelectorAll('input, textarea');
+    allInputs.forEach((el, i) => {
+        const saved = localStorage.getItem(SAVE_KEY_PREFIX + i);
         if (saved !== null) {
             if (el.type === 'checkbox') el.checked = (saved === 'true');
             else el.value = saved;
@@ -92,13 +92,13 @@ function load() {
     updateSheet();
 }
 
-// Funções de Arquivo
+// Exportação e Importação de Arquivos
 function exportarFicha() {
     const dados = {};
     for (let i = 0; i < localStorage.length; i++) {
-        const chave = localStorage.key(i);
-        if (chave.startsWith('horror_final_v10_')) {
-            dados[chave] = localStorage.getItem(chave);
+        const key = localStorage.key(i);
+        if (key.startsWith(SAVE_KEY_PREFIX)) {
+            dados[key] = localStorage.getItem(key);
         }
     }
     const blob = new Blob([JSON.stringify(dados)], {type: 'application/json'});
@@ -112,14 +112,26 @@ function exportarFicha() {
 function importarFicha(input) {
     const reader = new FileReader();
     reader.onload = function() {
-        const dados = JSON.parse(reader.result);
-        for (const chave in dados) {
-            localStorage.setItem(chave, dados[chave]);
+        try {
+            const dados = JSON.parse(reader.result);
+            for (const key in dados) {
+                localStorage.setItem(key, dados[key]);
+            }
+            location.reload();
+        } catch(e) {
+            alert("Erro ao ler o arquivo da ficha.");
         }
-        location.reload();
     };
     reader.readAsText(input.files[0]);
 }
 
-inputs.forEach(el => el.addEventListener('input', () => { updateSheet(); save(); }));
-window.onload = load;
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    loadAll();
+    document.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('input', () => {
+            updateSheet();
+            saveAll();
+        });
+    });
+});
