@@ -13,7 +13,7 @@
         <h1>PROJETO: PIRIMBOCA</h1>
         <div class="header-data">
             <div class="char-field">
-                <input type="text" value="Agente">
+                <input type="text" value="Agente" id="charName">
                 <label>NOME DO INVESTIGADOR</label>
             </div>
             <div class="char-field compact">
@@ -29,7 +29,7 @@
 
     <div class="main-content">
         <aside class="side-col">
-            <div class="attributes-row">
+            <div class="attributes-grid">
                 <div class="stat-mini">
                     <label>FOR</label>
                     <div class="stat-mod" id="mod-For">+0</div>
@@ -60,14 +60,9 @@
                     <div class="stat-mod" id="mod-Car">+0</div>
                     <input type="number" value="10" data-stat="Car">
                 </div>
-                <div class="export-controls">
-        <button onclick="exportarFicha()">SALVAR ARQUIVO (.JSON)</button>
-        <button onclick="document.getElementById('importFile').click()">CARREGAR ARQUIVO</button>
-        <input type="file" id="importFile" style="display:none" onchange="importarFicha(this)">
-    </div>
             </div>
 
-            <div class="box compact-box">
+            <div class="box compact-box resistances">
                 <h3 class="red-title">RESISTÊNCIAS</h3>
                 <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="For">+0</span> Força</div>
                 <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Destreza</div>
@@ -77,28 +72,26 @@
                 <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Carisma</div>
             </div>
 
-            <div class="box compact-box">
-                <<div class="box compact-box">
-        <h3 class="red-title">PERÍCIAS</h3>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="For">+0</span> Atletismo</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Acrobacia</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Furtividade</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Prestidigitação</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Arcanismo</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> História</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Investigação</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Natureza</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Religião</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Adestrar Animais</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Intuição</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Medicina</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Percepção</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Sobrevivência</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Atuação</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Enganação</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Intimidação</div>
-        <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Persuasão</div>
-    </div>
+            <div class="box compact-box pericias">
+                <h3 class="red-title">PERÍCIAS</h3>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="For">+0</span> Atletismo</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Acrobacia</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Furtividade</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Des">+0</span> Prestidigitação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Arcanismo</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> História</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Investigação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Natureza</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Religião</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Adestrar Animais</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Intuição</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Medicina</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Percepção</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Int">+0</span> Sobrevivência</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Atuação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Enganação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Intimidação</div>
+                <div class="skill-row"><input type="checkbox"> <span class="mod-val" data-base="Car">+0</span> Persuasão</div>
             </div>
         </aside>
 
@@ -112,44 +105,50 @@
                 <div class="box hp-box">
                     <label>VITALIDADE MÁX</label>
                     <input type="number" id="hpMaxField" readonly value="17">
-                    <input type="text" placeholder="ATUAL" class="current-val">
+                    <input type="text" placeholder="ATUAL" class="current-val" id="hpCurrentField">
                 </div>
                 <div class="box san-box">
                     <label>SANIDADE MÁX</label>
                     <input type="number" id="sanMaxField" readonly value="17">
-                    <input type="text" placeholder="ATUAL" class="current-val">
+                    <input type="text" placeholder="ATUAL" class="current-val" id="sanCurrentField">
                 </div>
             </div>
 
             <div class="box focus-area">
                 <div class="focus-line">
-                    <label>ADRENALINA</label>
+                    <label>ADRENALINA (COMBATE)</label>
                     <input type="number" id="maxFocusCombate" value="3" class="f-num">
                     <div id="containerFocusCombate" class="f-slots"></div>
                 </div>
                 <div class="focus-line">
-                    <label>RESERVA MENTAL</label>
+                    <label>RESERVA MENTAL (DIÁRIO)</label>
                     <input type="number" id="maxFocusDiario" value="2" class="f-num">
                     <div id="containerFocusDiario" class="f-slots"></div>
                 </div>
             </div>
 
-            <div class="box">
+            <div class="box actions-box">
                 <h3>AÇÕES E RITUAIS</h3>
-                <textarea style="height: 180px;"></textarea>
+                <textarea id="actionsText" style="height: 180px;"></textarea>
             </div>
         </section>
 
         <aside class="side-col">
             <div class="box">
                 <h3>EQUIPAMENTO</h3>
-                <textarea style="height: 160px;"></textarea>
+                <textarea id="equipText" style="height: 160px;"></textarea>
             </div>
             <div class="box">
                 <h3>NOTAS / TRAUMAS</h3>
-                <textarea style="height: 280px;"></textarea>
+                <textarea id="notesText" style="height: 280px;"></textarea>
             </div>
         </aside>
+    </div>
+    
+    <div class="export-controls">
+        <button onclick="exportarFicha()">SALVAR ARQUIVO (.JSON)</button>
+        <button onclick="document.getElementById('importFile').click()">CARREGAR ARQUIVO</button>
+        <input type="file" id="importFile" style="display:none" onchange="importarFicha(this)">
     </div>
 </div>
 
