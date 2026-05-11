@@ -28,7 +28,7 @@ body {
 .blog-header {
     text-align: center;
     border-bottom: 2px solid var(--accent);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .blog-header h1 {
@@ -53,7 +53,7 @@ body {
     text-align: center; color: #fff; width: 160px; font-size: 1rem; outline: none;
 }
 
-/* Remover setas de números */
+/* Esconder setas de números */
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none; margin: 0;
 }
@@ -65,17 +65,23 @@ input[type=number] { -moz-appearance: textfield; }
     gap: 15px;
 }
 
-/* Atributos */
-.attributes-row {
+/* GRID DE ATRIBUTOS (CORRIGIDO) */
+.attributes-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* Forcei as colunas laterais a terem larguras fixas menores que a central */
+    grid-template-columns: 1fr 1.2fr 1fr;
     gap: 6px;
     margin-bottom: 10px;
 }
+
 .stat-mini {
-    background: #0a0a0a; border: 1px solid #222; padding: 6px 2px; text-align: center;
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 6px 2px;
+    text-align: center;
 }
-.stat-mini.highlight { border-color: var(--oculto); }
+
+.stat-mini.highlight { border-color: var(--oculto); box-shadow: inset 0 0 8px rgba(75,0,130,0.3); }
 .stat-mini label { font-size: 0.6rem; display: block; color: #444; }
 .stat-mod { font-size: 1.1rem; font-weight: bold; color: var(--accent); margin: 2px 0; }
 .stat-mini input { 
@@ -83,17 +89,21 @@ input[type=number] { -moz-appearance: textfield; }
     font-size: 0.85rem; text-align: center; color: #666; outline: none; 
 }
 
-/* Boxes e Listas */
+/* Boxes e Listas com Scroll Estilizado */
 .box { background: #080808; border: 1px solid #1a1a1a; padding: 10px; margin-bottom: 10px; }
 .red-title { font-size: 0.75rem; color: var(--accent); margin: 0 0 8px 0; border-bottom: 1px solid #222; text-align: center; }
 h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; text-transform: uppercase; }
 
 .compact-box {
-    max-height: 520px;
+    max-height: 300px; /* Limite de altura para a lateral não quebrar */
     overflow-y: auto;
     padding-right: 5px;
 }
-/* Scrollbar Estilizada */
+.compact-box.pericias {
+    max-height: 480px; /* Mais espaço para a lista de perícias */
+}
+
+/* Barra de Rolagem de Terror */
 .compact-box::-webkit-scrollbar { width: 3px; }
 .compact-box::-webkit-scrollbar-track { background: #000; }
 .compact-box::-webkit-scrollbar-thumb { background: var(--accent); }
@@ -101,7 +111,7 @@ h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; te
 .skill-row { font-size: 0.7rem; display: flex; align-items: center; margin-bottom: 4px; }
 .mod-val { width: 30px; font-weight: bold; margin-right: 6px; color: #fff; border-bottom: 1px solid #333; text-align: center; }
 
-/* Status Central */
+/* CENTRO */
 .combat-summary { display: flex; gap: 10px; margin-bottom: 10px; }
 .combat-item { flex: 1; background: #0a0a0a; border: 1px solid #222; text-align: center; padding: 6px; }
 .combat-item label { font-size: 0.6rem; color: #444; }
@@ -119,7 +129,7 @@ h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; te
     margin-top: 5px; color: #ccc !important; 
 }
 
-/* Foco / Adrenalina */
+/* FOCO / Adrenalina */
 .focus-line { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .focus-line label { font-size: 0.65rem; flex: 1; color: #666; }
 .f-num { 
@@ -130,14 +140,13 @@ h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; te
 .focus-checkbox { appearance: none; width: 14px; height: 14px; border: 1px solid var(--accent); border-radius: 50%; cursor: pointer; background: #000; }
 .focus-checkbox:checked { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
 
-/* Áreas de Texto */
 textarea { 
     width: 100%; background: transparent; border: none; color: #888; 
     font-family: 'Courier Prime', monospace; font-size: 0.85rem; 
     resize: none; outline: none; line-height: 1.4; 
 }
 
-/* Controles de Exportação */
+/* Botões de Exportar */
 .export-controls {
     margin-top: 20px;
     padding-top: 15px;
@@ -161,90 +170,4 @@ textarea {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
-}    font-size: 1.6rem;
-    margin: 5px 0;
-    text-transform: uppercase;
 }
-
-.header-data {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding-bottom: 10px;
-}
-
-.char-field { display: flex; flex-direction: column; align-items: center; }
-.char-field label { font-size: 0.6rem; color: #555; font-weight: bold; margin-top: 4px;}
-.char-field input { 
-    background: transparent; border: none; border-bottom: 1px solid #222; 
-    text-align: center; color: #fff; width: 160px; font-size: 1rem;
-}
-
-/* Esconder setas de aumentar/diminuir */
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none; margin: 0;
-}
-input[type=number] { -moz-appearance: textfield; }
-
-.main-content {
-    display: grid;
-    grid-template-columns: 260px 1fr 240px;
-    gap: 15px;
-}
-
-.attributes-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-.stat-mini {
-    background: #0a0a0a; border: 1px solid #222; padding: 6px 2px; text-align: center;
-}
-
-.stat-mini.highlight { border-color: var(--oculto); }
-.stat-mini label { font-size: 0.6rem; display: block; color: #444; }
-.stat-mod { font-size: 1.1rem; font-weight: bold; color: var(--accent); margin: 2px 0; }
-.stat-mini input { 
-    width: 100%; background: transparent; border: none; 
-    font-size: 0.85rem; text-align: center; color: #666; outline: none; 
-}
-
-.box { background: #080808; border: 1px solid #1a1a1a; padding: 10px; margin-bottom: 10px; }
-.red-title { font-size: 0.75rem; color: var(--accent); margin: 0 0 8px 0; border-bottom: 1px solid #222; text-align: center; }
-h3 { font-size: 0.75rem; color: #555; text-align: center; margin-bottom: 8px; }
-
-/* Lista de Perícias com Scroll se necessário */
-.compact-box.pericias {
-    max-height: 520px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-.compact-box.pericias::-webkit-scrollbar { width: 3px; }
-.compact-box.pericias::-webkit-scrollbar-thumb { background: var(--accent); }
-
-.skill-row { font-size: 0.7rem; display: flex; align-items: center; margin-bottom: 4px; }
-.mod-val { width: 30px; font-weight: bold; margin-right: 6px; color: #fff; border-bottom: 1px solid #333; text-align: center; }
-
-/* CENTRO */
-.combat-summary { display: flex; gap: 10px; margin-bottom: 10px; }
-.combat-item { flex: 1; background: #0a0a0a; border: 1px solid #222; text-align: center; padding: 6px; }
-.combat-item label { font-size: 0.6rem; color: #444; }
-.combat-item input { background: transparent; border: none; color: #fff; text-align: center; font-size: 1.3rem; font-weight: bold; width: 100%; }
-
-.status-grid { display: flex; gap: 10px; }
-.hp-box { border-top: 3px solid var(--accent); }
-.san-box { border-top: 3px solid var(--oculto); }
-.status-grid input { 
-    background: transparent; border: none; color: #fff; 
-    font-size: 1.4rem; text-align: center; width: 100%; padding: 5px 0;
-}
-.current-val { 
-    border-top: 1px solid #1a1a1a !important; font-size: 1rem !important; 
-    margin-top: 5px; color: #ccc !important; 
-}
-
-/* FOCO */
-.focus-line { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.focus
