@@ -1,6 +1,6 @@
 // Funções Matemáticas
-const calculateMod = (score) => Math.floor((score - 10) / 2);
-const calculateProficiency = (level) => Math.ceil(level / 4) + 1;
+function calculateMod(score) { return Math.floor((score - 10) / 2); }
+function calculateProficiency(level) { return Math.ceil(level / 4) + 1; }
 
 // Gerenciador de Bolinhas de Foco/Adrenalina
 function renderFocus(containerId, maxId, storageKey) {
@@ -33,7 +33,7 @@ function updateSheet() {
 
     const mods = {};
 
-    // 1. Atributos e Modificadores
+    // 1. Atualizar Atributos
     document.querySelectorAll('.stat-mini input').forEach(input => {
         const stat = input.dataset.stat;
         const val = parseInt(input.value) || 10;
@@ -48,11 +48,13 @@ function updateSheet() {
     document.getElementById('initField').value = dexMod >= 0 ? `+${dexMod}` : dexMod;
     document.getElementById('caField').value = 10 + dexMod;
 
-    // 3. Vitalidade e Sanidade (17 + Modificador)
-    document.getElementById('hpMaxField').value = 17 + (mods['Con'] || 0);
-    document.getElementById('sanMaxField').value = 17 + (mods['Ocu'] || 0);
+    // 3. Vitalidade e Sanidade (Base 17 + Mod)
+    const conMod = mods['Con'] || 0;
+    const ocuMod = mods['Ocu'] || 0;
+    document.getElementById('hpMaxField').value = 17 + conMod;
+    document.getElementById('sanMaxField').value = 17 + ocuMod;
 
-    // 4. Perícias e Resistências
+    // 4. Perícias e Resistências (.mod-val)
     document.querySelectorAll('.mod-val').forEach(span => {
         const statBase = span.dataset.base;
         const profCheck = span.parentElement.querySelector('input[type="checkbox"]');
@@ -62,28 +64,24 @@ function updateSheet() {
         span.textContent = finalVal >= 0 ? `+${finalVal}` : finalVal;
     });
 
-    // 5. Atualizar Focos
-    renderFocus('containerFocusCombate', 'maxFocusCombate', 'save_focus_combat');
-    renderFocus('containerFocusDiario', 'maxFocusDiario', 'save_focus_daily');
+    renderFocus('containerFocusCombate', 'maxFocusCombate', 'horror_focus_combat');
+    renderFocus('containerFocusDiario', 'maxFocusDiario', 'horror_focus_daily');
 }
 
-// Sistema de Salvamento Local
-const SAVE_KEY_PREFIX = 'horror_v10_save_';
+// Sistema de Salvamento
+const ALL_INPUTS = document.querySelectorAll('input, textarea');
 
-function saveAll() {
-    const allInputs = document.querySelectorAll('input, textarea');
-    allInputs.forEach((el, i) => {
+function save() {
+    ALL_INPUTS.forEach((el, i) => {
         if (!el.readOnly && el.id !== 'importFile') {
-            const val = el.type === 'checkbox' ? el.checked : el.value;
-            localStorage.setItem(SAVE_KEY_PREFIX + i, val);
+            localStorage.setItem('horror_v10_save_' + i, el.type === 'checkbox' ? el.checked : el.value);
         }
     });
 }
 
-function loadAll() {
-    const allInputs = document.querySelectorAll('input, textarea');
-    allInputs.forEach((el, i) => {
-        const saved = localStorage.getItem(SAVE_KEY_PREFIX + i);
+function load() {
+    ALL_INPUTS.forEach((el, i) => {
+        const saved = localStorage.getItem('horror_v10_save_' + i);
         if (saved !== null) {
             if (el.type === 'checkbox') el.checked = (saved === 'true');
             else el.value = saved;
@@ -92,12 +90,12 @@ function loadAll() {
     updateSheet();
 }
 
-// Exportação e Importação de Arquivos
+// Exportar e Importar
 function exportarFicha() {
     const dados = {};
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key.startsWith(SAVE_KEY_PREFIX)) {
+        if (key.startsWith('horror_v10_save_')) {
             dados[key] = localStorage.getItem(key);
         }
     }
@@ -119,19 +117,12 @@ function importarFicha(input) {
             }
             location.reload();
         } catch(e) {
-            alert("Erro ao ler o arquivo da ficha.");
+            alert("Erro ao ler arquivo da ficha.");
         }
     };
     reader.readAsText(input.files[0]);
 }
 
-// Event Listeners
-document.addEventListener('DOMContentLoaded', () => {
-    loadAll();
-    document.querySelectorAll('input, textarea').forEach(el => {
-        el.addEventListener('input', () => {
-            updateSheet();
-            saveAll();
-        });
-    });
-});
+// Gatilhos
+ALL_INPUTS.forEach(el => el.addEventListener('input', () => { updateSheet(); save(); }));
+window.onload = load;
